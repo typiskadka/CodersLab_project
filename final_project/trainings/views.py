@@ -43,8 +43,7 @@ class MainView(View):
         """
         Obsługuje żądanie GET.
 
-        :param:
-            request (HttpRequest): Obiekt żądania HTTP.
+        :param request: (HttpRequest): Obiekt żądania HTTP.
 
         return:
             HttpResponse: Odpowiedź HTTP z wyrenderowanym szablonem 'main.html'.
@@ -103,8 +102,7 @@ class EmployeesView(AuthenticatedView):
         """
         Obsługuje żądania GET, wyświetlając listę pracowników oraz opcjonalnie wykres.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Renderowana strona HTML z listą pracowników i opcjonalnie wykresem.
@@ -119,8 +117,7 @@ class EmployeesView(AuthenticatedView):
         """
         Obsługuje żądania POST, umożliwiając usuwanie pracowników oraz generowanie wykresów.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Renderowana strona HTML z listą pracowników i opcjonalnie wykresem lub przekierowanie.
@@ -194,8 +191,7 @@ class AddEmployeeView(AuthenticatedView):
         """
         Obsługuje żądania GET, wyświetlając formularz dodawania pracownika.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Renderowana strona HTML z formularzem dodawania pracownika.
@@ -210,8 +206,7 @@ class AddEmployeeView(AuthenticatedView):
         """
         Obsługuje żądania POST, zapisując nowego pracownika w bazie danych, jeśli formularz jest poprawny.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Renderowana strona HTML z formularzem dodawania pracownika,
@@ -243,9 +238,8 @@ class EditEmployeeView(AuthenticatedView):
         Obsługuje żądania GET, pobierając dane pracownika o podanym identyfikatorze
         i wyświetlając formularz edycji danych pracownika.
 
-        :param:
-            request: Obiekt żądania HTTP.
-            pk: Identyfikator pracownika do edycji.
+        :param request: Obiekt żądania HTTP.
+        :param pk: Identyfikator pracownika do edycji.
 
         return:
             HttpResponse: Renderowana strona HTML z formularzem edycji danych pracownika.
@@ -263,9 +257,8 @@ class EditEmployeeView(AuthenticatedView):
         Obsługuje żądania POST, zapisując zmodyfikowane dane pracownika w bazie danych,
         jeśli formularz jest poprawny.
 
-        :param:
-            request: Obiekt żądania HTTP.
-            pk: Identyfikator pracownika do edycji.
+        :param request: Obiekt żądania HTTP.
+        :param pk: Identyfikator pracownika do edycji.
 
         Zwraca:
             HttpResponse: Przekierowanie do listy pracowników po zapisaniu zmian,
@@ -298,8 +291,7 @@ class AddParticipantView(AuthenticatedView):
         """
         Obsługuje żądania GET, tworząc formularz AddParticipantForm i renderując stronę HTML add_participant.html.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Renderowana strona HTML z formularzem dodawania uczestnika.
@@ -315,8 +307,7 @@ class AddParticipantView(AuthenticatedView):
         Obsługuje żądania POST, zapisując dane nowego uczestnika do bazy danych, jeśli formularz jest poprawny.
         W przypadku niepoprawnego formularza, ponownie renderuje formularz wraz z błędami.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Przekierowanie do widoku 'main' po zapisaniu nowego uczestnika lub renderowana strona HTML z formularzem
@@ -349,8 +340,7 @@ class CoursesView(AuthenticatedView):
         """
         Generuje plik PDF dla konkretnego szkolenia na podstawie jego ID.
 
-        :param:
-            course_id (int): ID szkolenia, dla którego generowany jest plik PDF.
+        :param course_id (int): ID szkolenia, dla którego generowany jest plik PDF.
 
         return:
             HttpResponse: Odpowiedź HTTP zawierająca plik PDF z danymi szkolenia.
@@ -406,8 +396,7 @@ class CoursesView(AuthenticatedView):
         """
         Wyświetla listę szkoleń posortowanych po czasie rozpoczęcia.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Renderowana strona HTML z listą szkoleń.
@@ -422,8 +411,7 @@ class CoursesView(AuthenticatedView):
         """
         Obsługuje żądania POST, generując pliki PDF dla przeszłych szkoleń lub konkretnego szkolenia.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Odpowiedź HTTP zawierająca wygenerowany plik PDF.
@@ -453,8 +441,7 @@ class AddCourseView(AuthenticatedView):
         """
         Renderuje formularz dodawania nowego szkolenia.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Renderowany formularz HTML do dodawania nowego szkolenia.
@@ -469,8 +456,7 @@ class AddCourseView(AuthenticatedView):
         """
         Obsługuje żądania POST, zapisuje nowe szkolenie do bazy danych.
 
-        :param:
-            request: Obiekt żądania HTTP zawierający dane formularza.
+        :param request: Obiekt żądania HTTP zawierający dane formularza.
 
         return:
             HttpResponseRedirect: Przekierowanie do widoku listy szkoleń po pomyślnym zapisie.
@@ -501,9 +487,8 @@ class CourseDetailsView(AuthenticatedView):
         """
         Renderuje szczegółowe informacje o szkoleniu oraz formularz edycji.
 
-        :param:
-            request: Obiekt żądania HTTP.
-            pk: Klucz główny (ID) szkolenia.
+        :param request: Obiekt żądania HTTP.
+        :param pk: Klucz główny (ID) szkolenia.
 
         return:
             HttpResponse: Renderowane szczegółowe informacje o szkoleniu wraz z formularzem edycji.
@@ -529,9 +514,8 @@ class CourseDetailsView(AuthenticatedView):
         """
         Obsługuje żądania POST, zapisuje zmiany w szkoleniu lub generuje raport PDF dla szkolenia.
 
-        :param:
-            request: Obiekt żądania HTTP zawierający dane formularza.
-            pk: Klucz główny (ID) szkolenia.
+        :param request: Obiekt żądania HTTP.
+        :param pk: Klucz główny (ID) szkolenia.
 
         return:
             HttpResponseRedirect: Przekierowanie do widoku szczegółowych informacji o szkoleniu po pomyślnym zapisie zmian.
@@ -580,9 +564,8 @@ class EmployeeCoursesView(AuthenticatedView):
         """
         Renderuje szczegółowe informacje o szkoleniach przypisanych do pracownika.
 
-        :param:
-            request: Obiekt żądania HTTP.
-            pk: Klucz główny (ID) pracownika.
+        :param request: Obiekt żądania HTTP.
+        :param pk: Klucz główny (ID) pracownika.
 
         return:
             HttpResponse: Renderowane szczegółowe informacje o szkoleniach przypisanych do pracownika.
@@ -602,9 +585,8 @@ class EmployeeCoursesView(AuthenticatedView):
         """
         Obsługuje żądania POST, generuje raport PDF zawierający szczegóły szkoleń przypisanych do pracownika.
 
-        :param:
-            request: Obiekt żądania HTTP zawierający dane formularza.
-            pk: Klucz główny (ID) pracownika.
+        :param request: Obiekt żądania HTTP.
+        :param pk: Klucz główny (ID) pracownika.
 
         return:
             HttpResponse: Generowany raport PDF zawierający szczegóły szkoleń przypisanych do pracownika.
@@ -640,8 +622,7 @@ class CoursesForTodayView(AuthenticatedView):
         """
         Renderuje listę szkoleń zaplanowanych na dzisiaj.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Renderowana lista szkoleń zaplanowanych na dzisiaj.
@@ -670,9 +651,8 @@ class CoursePresenceListView(AuthenticatedView):
         """
         Renderuje listę uczestników i ich obecność na danym szkoleniu.
 
-        :param:
-            request: Obiekt żądania HTTP.
-            pk (int): ID szkolenia.
+        :param request: Obiekt żądania HTTP.
+        :param pk (int): ID szkolenia.
 
         return:
             HttpResponse: Renderowana lista uczestników i ich obecność na danym szkoleniu.
@@ -690,9 +670,8 @@ class CoursePresenceListView(AuthenticatedView):
         """
         Zapisuje zmiany w liście obecności uczestników na danym szkoleniu.
 
-        :param:
-            request: Obiekt żądania HTTP.
-            pk (int): ID szkolenia.
+        :param request: Obiekt żądania HTTP.
+        :param pk (int): ID szkolenia.
 
         return:
             HttpResponseRedirect: Przekierowanie na stronę szczegółów szkolenia po zapisaniu obecności.
@@ -726,9 +705,8 @@ class CourseParticipantsView(AuthenticatedView):
         """
         Renderuje listę uczestników danego szkolenia.
 
-        :param:
-            request: Obiekt żądania HTTP.
-            pk (int): ID szkolenia.
+        :param request: Obiekt żądania HTTP.
+        :param pk (int): ID szkolenia.
 
         return:
             HttpResponse: Renderowana lista uczestników danego szkolenia.
@@ -765,8 +743,7 @@ class EditParticipantView(AuthenticatedView):
         """
         Renderuje formularz edycji uczestnika szkolenia.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Renderowany formularz edycji uczestnika.
@@ -778,8 +755,7 @@ class EditParticipantView(AuthenticatedView):
         """
         Obsługuje zapis uczestnika na szkolenie i przekierowuje do szczegółów szkolenia po zapisie.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         return:
             HttpResponse: Przekierowanie do widoku szczegółów szkolenia lub renderowanie formularza z błędami.
@@ -819,8 +795,7 @@ class ParticipantsView(AuthenticatedView):
         """
         Pobiera listę uczestników wraz z przypisanymi szkoleniami i renderuje widok.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
         :return:
             HttpResponse: Renderowany widok listy uczestników z przypisanymi szkoleniami.
@@ -856,8 +831,7 @@ class LoginView(FormView):
         """
         Wywoływana, gdy formularz logowania jest poprawny.
 
-        :param:
-            form (LoginForm): Przesłany formularz logowania.
+        :param form (LoginForm): Przesłany formularz logowania.
 
         :return:
             HttpResponseRedirect: Przekierowanie na success_url po poprawnym zalogowaniu.
@@ -877,8 +851,7 @@ class LogoutView(View):
         """
         Obsługuje żądanie GET, wylogowuje użytkownika i przekierowuje na widok 'main'.
 
-        :param:
-            request: Obiekt żądania HTTP.
+        :param request: Obiekt żądania HTTP.
 
        :return:
             HttpResponseRedirect: Przekierowanie na widok 'main' po wylogowaniu użytkownika.
