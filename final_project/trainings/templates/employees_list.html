@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees List</title>
+</head>
+<body>
+    <h1>Lista Pracowników</h1>
+    <a href="{% url 'add_employee' %}" class="button">Dodaj Pracownika</a>
+
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Płeć</th>
+                <th>Email</th>
+                <th>Numer Telefonu</th>
+                <th>Stanowisko</th>
+                <th>Spółka</th>
+                <th>Zespół</th>
+                <th>Lider</th>
+                <th>Przełożony</th>
+                <th>Przepracowane godziny</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in employees_data %}
+            <tr>
+                <td>{{ data.employee.first_name }}</td>
+                <td>{{ data.employee.last_name }}</td>
+                <td>{{ data.employee.get_gender_display }}</td>
+                <td>{{ data.employee.e_mail }}</td>
+                <td>{{ data.employee.phone_number }}</td>
+                <td>{{ data.employee.position }}</td>
+                <td>{{ data.employee.company }}</td>
+                <td>{{ data.employee.team }}</td>
+                <td>{{ data.employee.team_leader }}</td>
+                <td>{{ data.employee.supervisor }}</td>
+                <td>{{ data.total_duration }}</td>
+                <td>
+                    <a href="{% url 'employee_courses' data.employee.id %}" class="button">Szkolenia</a>
+                    <a href="{% url 'edit_employee' data.employee.id %}" class="button">Edytuj</a>
+                    <form method="post" action="{% url 'employees_list' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="employee_id" value="{{ data.employee.id }}">
+                        <button type="submit" name="delete">Usuń</button>
+                </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if chart %}
+        <h2>Wykres przepracowanych godzin według pracowników</h2>
+        <img src="data:image/png;base64,{{ chart }}" alt="Wykres przepracowanych godzin">
+    {% endif %}
+
+    <form method="post" action="{% url 'employees_list' %}">
+        {% csrf_token %}
+        <button type="submit" name="generate_chart">Generuj wykres</button>
+    </form>
+
+<a href="{% url 'main' %}" class="button">Strona główna</a>
+</body>
+</html>

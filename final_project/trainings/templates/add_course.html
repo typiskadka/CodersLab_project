@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj Szkolenie</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <h1>Dodaj Nowe Szkolenie</h1>
+    <form method="post" action="{% url 'add_course' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Dodaj Szkolenie</button>
+    </form>
+    <a href="{% url 'courses_list' %}" class="button">Powrót do Listy Szkoleń</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        import flatpickr from "flatpickr";
+
+        flatpickr("input[type=datetime-local]", {
+            enableTime: true,
+            dateFormat: "Y-m-dTH:i",
+        });
+    </script>
+</body>
+</html>

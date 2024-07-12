@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Szczegóły Szkolenia</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <h1>Szczegóły Szkolenia: {{ course.topic }}</h1>
+    <form method="post" action="{% url 'course_details' course.id %}" style="display:inline;">
+        {% csrf_token %}
+        <input type="hidden" name="course_id" value="{{ course.id }}">
+        <button name="save_to_pdf" type="submit">Zapisz szkolenie do pliku PDF</button>
+    </form>
+    <p><strong>Temat:</strong> {{ course.topic }}</p>
+    <p><strong>Kategoria:</strong> {{ course.get_category_display }}</p>
+    <p><strong>Ścieżka:</strong> {{ course.get_path_display }}</p>
+    <p><strong>Formuła:</strong> {{ course.get_formula_display }}</p>
+    <p><strong>Data rozpoczęcia:</strong> {{ course.start_time }}</p>
+    <p><strong>Data zakończenia:</strong> {{ course.end_time }}</p>
+    <p><strong>Czas trwania:</strong> {{ course.duration }}</p>
+    <p><strong>Trener:</strong> {{ course.coach }}</p>
+    <p><strong>Limit uczestników:</strong> {{ course.participants_limit }}</p>
+    <p><strong>Zarejestrowani uczestnicy:</strong>
+        <a href="{% url 'course_participants' pk=course.pk %}">{{ participants_count }}</a>
+    </p>
+    <p><strong>Szkolenie się odbyło:</strong> {{ course.took_place }}</p>
+    <p><strong>Materiały dostarczone:</strong> {{ course.materials }}</p>
+
+    <h2>Edytuj Szkolenie</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="save">Zapisz zmiany</button>
+    </form>
+
+    <a href="{% url 'courses_list' %}" class="button">Powrót do Listy Szkoleń</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("input[type=datetime-local]", {
+            enableTime: true,
+            dateFormat: "Y-m-dTH:i",
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edytuj pracownika {{employee.first_name }} {{ employee.last_name }}</title>
+</head>
+<body>
+    <h1>Edytuj pracownika</h1>
+    <h2>{{employee.first_name }} {{ employee.last_name }}</h2>
+    <form method="post" action="{% url 'edit_employee' employee.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Zapisz</button>
+    </form>
+<a href="{% url 'main' %}" class="button">Strona główna</a>
+</body>
+</html>

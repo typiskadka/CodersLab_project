@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj uczestnika do szkolenia</title>
+</head>
+<body>
+    <h1>Dodaj uczestnika do szkolenia</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Dodaj uczestnika do szkolenia</button>
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+<a href="{% url 'main' %}" class="button">Strona główna</a>
+<a href="{% url 'courses_list' %}" class="button">Lista wszystkich szkoleń</a>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Szkolenia Pracownika</title>
+    <style>
+        /* Dodaj style CSS do szablonu PDF */
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        h1, p { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Szkolenia pracownika: {{ employee.first_name }} {{ employee.last_name }}</h1>
+    <center><h2>E-mail: {{ employee.e_mail }}</h2>
+    <h2>Numer telefonu: {{ employee.phone_number }}</h2></center>
+    <table>
+        <thead>
+            <tr>
+                <th>Temat</th>
+                <th>Kategoria</th>
+                <th>Ścieżka</th>
+                <th>Formuła</th>
+                <th>Data Rozpoczęcia</th>
+                <th>Data Zakończenia</th>
+                <th>Czas Trwania</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.topic }}</td>
+                <td>{{ course.get_category_display }}</td>
+                <td>{{ course.get_path_display }}</td>
+                <td>{{ course.get_formula_display }}</td>
+                <td>{{ course.start_time }}</td>
+                <td>{{ course.end_time }}</td>
+                <td>{{ course.duration }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><strong>Łączny czas trwania poprowadzonych szkoleń:</strong> {{ total_duration }}</p>
+</body>
+</html>

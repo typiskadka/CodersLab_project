@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista uczestników</title>
+</head>
+<body>
+    <h1>Lista uczestników</h1>
+    <a href="{% url 'add_participant' %}" class="button">Dodaj uczestnika</a>
+    <a href="{% url 'edit_participant' %}" class="button">Dodaj uczestnika do szkolenia</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Imię i nazwisko</th>
+                <th>Płeć</th>
+                <th>E-mail</th>
+                <th>Numer telefonu</th>
+                <th>Lista szkoleń</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for participant, courses in participants_courses.items %}
+                <tr>
+                    <td>{{participant.first_name }} {{participant.last_name }}</td>
+                    <td>{{ participant.get_gender_display }}</td>
+                    <td>{{ participant.e_mail }}</td>
+                    <td>{{ participant.phone_number }}</td>
+                    <td>
+                        <ul style="list-style-type:none;">
+                            {% for course in courses %}
+                                <li>{{ course.topic }} </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="list-style-type:none;">
+                            {% for course in courses %}
+                                <li><a href="{% url 'course_details' course.id %}" class="button">Szczegóły szkolenia</a> </li>
+                            {% endfor %}
+                        </ul>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'main' %}" class="button">Strona główna</a>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Obecności na Szkoleniu "{{ course.topic }}"</title>
+</head>
+<body>
+    <h1>Lista Obecności na Szkoleniu "{{ course.topic }}"</h1>
+    <form method="post">
+        {% csrf_token %}
+        <ul>
+            {% for participant in participants %}
+            <li>
+                <input type="checkbox" id="{{ participant.id }}" name="{{ participant.id }}"
+                       {% if participant in presence_list and participant.presence.present %} checked {% endif %}>
+                <label for="{{ participant.id }}">{{ participant.first_name }} {{ participant.last_name }}</label>
+            </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Zapisz Obecność</button>
+    </form>
+    <a href="{% url 'course_details' pk=course.pk %}" class="button">Powrót do Szczegółów Szkolenia</a>
+</body>
+</html>

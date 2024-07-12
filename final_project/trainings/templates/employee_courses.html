@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Szkolenia Pracownika</title>
+</head>
+<body>
+    <h1>Szkolenia Pracownika: {{ employee.first_name }} {{ employee.last_name }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Temat</th>
+                <th>Data rozpoczęcia</th>
+                <th>Data zakończenia</th>
+                <th>Czas trwania</th>
+                <th>Szczegóły</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.topic }}</td>
+                <td>{{ course.start_time }}</td>
+                <td>{{ course.end_time }}</td>
+                <td>{{ course.end_time|timeuntil:course.start_time }}</td>
+                <td><a href="{% url 'course_details' pk=course.pk %}">Szczegóły</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><strong>Łączny czas trwania szkoleń:</strong> {{ total_duration }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Zapisz do pliku PDF</button>
+    </form>
+
+    <a href="{% url 'employees_list' %}" class="button">Powrót do Listy Pracowników</a>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Menu</title>
+</head>
+<body>
+    <h1>Main Menu</h1>
+    {% if user.is_authenticated %}
+        <p>Witaj, {{ user.username }}!</p>
+        <a href="{% url 'logout' %}">Wyloguj</a>
+    {% else %}
+        <a href="{% url 'login' %}">Logowanie</a>
+    {% endif %}
+    <br>
+    <ul>
+        <li><a href="{% url 'employees_list' %}">Pracownicy</a></li>
+        <li><a href="{% url 'courses_list' %}">Wszystkie szkolenia</a></li>
+        <li><a href="{% url 'courses_today' %}">Dzisiejsze szkolenia</a></li>
+        <li><a href="{% url 'participants_list' %}">Lista uczestników</a></li>
+    </ul>
+
+
+</body>
+</html>

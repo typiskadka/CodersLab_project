@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Szkoleń</title>
+</head>
+<body>
+    <h1>Lista Szkoleń</h1>
+    <a href="{% url 'add_course' %}" class="button">Dodaj szkolenie</a>
+    <form method="post" action="{% url 'courses_list' %}" style="display:inline;">
+        {% csrf_token %}
+        <button name="save_past_courses" type="submit">Zapisz szkolenia</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Temat</th>
+                <th>Kategoria</th>
+                <th>Ścieżka</th>
+                <th>Formuła</th>
+                <th>Data rozpoczęcia</th>
+                <th>Data zakończenia</th>
+                <th>Limit uczestników</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.topic }}</td>
+                <td>{{ course.get_category_display }}</td>
+                <td>{{ course.get_path_display }}</td>
+                <td>{{ course.get_formula_display }}</td>
+                <td>{{ course.start_time }}</td>
+                <td>{{ course.end_time }}</td>
+                <td>{{ course.participants_limit }}</td>
+                <td>
+                    <a href="{% url 'course_details' course.id %}" class="button">Szczegóły</a>
+                        <form method="post" action="{% url 'courses_list' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="course_id" value="{{ course.id }}">
+                            <button name="save_one_course" type="submit">Zapisz szkolenie do pliku PDF</button>
+                        </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<a href="{% url 'main' %}" class="button">Strona główna</a>
+</body>
+</html>
