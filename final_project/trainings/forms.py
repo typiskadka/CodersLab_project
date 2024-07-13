@@ -11,7 +11,8 @@ class AddEmployeeForm(forms.ModelForm):
     phone_number = forms.CharField(
         validators=[RegexValidator(
             regex='^[0-9]{9}$',
-            message='Numer telefonu musi składać się z 9 cyfr.')]
+            message='Numer telefonu musi składać się z 9 cyfr.')],
+        label='Numer telefonu'
     )
 
     class Meta:
@@ -27,9 +28,26 @@ class AddEmployeeForm(forms.ModelForm):
                   'team_leader',
                   'supervisor'
                   ]
+        labels = {
+            'first_name': 'Imię',
+            'last_name': 'Nazwisko',
+            'gender': 'Płeć',
+            'e_mail': 'E-mail',
+            'position': 'Stanowisko',
+            'company': 'Spółka',
+            'team': 'Zespół',
+            'team_leader': 'Kierownik zespołu',
+            'supervisor': 'Przełożony'
+        }
 
 
 class EditEmployeeForm(forms.ModelForm):
+    phone_number = forms.CharField(
+        validators=[RegexValidator(
+            regex='^[0-9]{9}$',
+            message='Numer telefonu musi składać się z 9 cyfr.')],
+        label='Numer telefonu'
+    )
     class Meta:
         model = Employee
         fields = ['phone_number',
@@ -39,20 +57,36 @@ class EditEmployeeForm(forms.ModelForm):
                   'team_leader',
                   'supervisor'
                   ]
+        labels = {
+            'position': 'Stanowisko',
+            'company': 'Spółka',
+            'team': 'Zespół',
+            'team_leader': 'Kierownik zespołu',
+            'supervisor': 'Przełożony'
+        }
 
 
 class AddParticipantForm(forms.ModelForm):
     training_course = forms.ModelMultipleChoiceField(
         queryset=TrainingCourse.objects.all(),
         widget=forms.CheckboxSelectMultiple,
+        label='Szkolenia',
         required=True
     )
 
     phone_number = forms.CharField(
         validators=[RegexValidator(
             regex='^[0-9]{9}$',
-            message='Numer telefonu musi składać się z 9 cyfr.')]
+            message='Numer telefonu musi składać się z 9 cyfr.')],
+        label='Numer telefonu'
     )
+
+    def clean_training_course(self):
+        selected_course = self.cleaned_data.get('training_course')
+        if selected_course.participant_set.count() >= selected_course.participants_limit:
+                raise ValidationError(f"Limit uczestników został osiągnięty dla szkolenia: "
+                                      f"{selected_course.topic} ({selected_course.get_formula_display()})")
+        return selected_course
 
     class Meta:
         model = Participant
@@ -61,7 +95,14 @@ class AddParticipantForm(forms.ModelForm):
                   'gender',
                   'e_mail',
                   'phone_number',
-                  'training_course']
+                  'training_course'
+                  ]
+        labels = {
+            'first_name': 'Imię',
+            'last_name': 'Nazwisko',
+            'gender': 'Płeć',
+            'e_mail': 'E-mail',
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -78,14 +119,26 @@ class AddParticipantForm(forms.ModelForm):
 
 
 class AddCourseForm(forms.ModelForm):
+
     start_time = forms.DateTimeField(
         widget=forms.DateTimeInput(
-            attrs={'type': 'datetime-local'})
+            attrs={'type': 'datetime-local'}),
+        label='Data i godzina rozpoczęcia'
     )
+
     end_time = forms.DateTimeField(
         widget=forms.DateTimeInput(
-            attrs={'type': 'datetime-local'})
+            attrs={'type': 'datetime-local'}),
+        label='Data i godzina zakończenia'
     )
+
+    participants_limit = forms.IntegerField(
+        validators=[MinValueValidator(0,
+                                      message="Liczba uczestników nie może być ujemna.")],
+        error_messages={'invalid': 'Podaj poprawną liczbę uczestników.'},
+        label='Limit uczestników'
+    )
+
 
     class Meta:
         model = TrainingCourse
@@ -98,23 +151,39 @@ class AddCourseForm(forms.ModelForm):
                   'participants_limit',
                   'coach'
                   ]
+        labels = {
+            'topic': 'Temat',
+            'category': 'Kategoria',
+            'path': 'Ścieżka',
+            'formula': 'Formuła',
+            'coach': 'Trener'
+        }
 
 
 class EditCourseFutureForm(forms.ModelForm):
     start_time = forms.DateTimeField(
         widget=forms.DateTimeInput(
             attrs={'type': 'datetime-local'}),
+        label='Data i godzina rozpoczęnia',
         error_messages={'invalid': 'Podaj poprawną datę i godzinę.'}
     )
+
     end_time = forms.DateTimeField(
         widget=forms.DateTimeInput(
             attrs={'type': 'datetime-local'}),
+        label='Data i godzina zakończenia',
         error_messages={'invalid': 'Podaj poprawną datę i godzinę.'}
+    )
+
+    coach = forms.ModelChoiceField(
+        queryset=Employee.objects.all(),
+        label='Trener'
     )
 
     participants_limit = forms.IntegerField(
         validators=[MinValueValidator(0,
                                       message="Liczba uczestników nie może być ujemna.")],
+        label='Limit uczestników',
         error_messages={'invalid': 'Podaj poprawną liczbę uczestników.'}
     )
 
@@ -128,6 +197,12 @@ class EditCourseFutureForm(forms.ModelForm):
 
 
 class EditCoursePastForm(forms.ModelForm):
+    took_place = forms.BooleanField(
+        label='Czy szkolenie się odbyło?'
+    )
+    materials = forms.BooleanField(
+        label='Czy trener dostarczył materiały?'
+    )
     class Meta:
         model = TrainingCourse
         fields = ['took_place',

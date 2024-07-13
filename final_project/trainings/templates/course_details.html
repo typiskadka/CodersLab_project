@@ -24,17 +24,17 @@
     <p><strong>Zarejestrowani uczestnicy:</strong>
         <a href="{% url 'course_participants' pk=course.pk %}">{{ participants_count }}</a>
     </p>
-    <p><strong>Szkolenie się odbyło:</strong> {{ course.took_place }}</p>
-    <p><strong>Materiały dostarczone:</strong> {{ course.materials }}</p>
+    <p><strong>Czy szkolenie się odbyło?</strong> {{ course.took_place }}</p>
+    <p><strong>Czy trener dostarczył materiały?</strong> {{ course.materials }}</p>
 
-    <h2>Edytuj Szkolenie</h2>
+    <h2>Edytuj szkolenie</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" name="save">Zapisz zmiany</button>
     </form>
 
-    <a href="{% url 'courses_list' %}" class="button">Powrót do Listy Szkoleń</a>
+    <a href="{% url 'courses_list' %}" class="button">Powrót do listy szkoleń</a>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>

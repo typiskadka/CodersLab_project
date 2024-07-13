@@ -425,6 +425,13 @@ class CoursesView(AuthenticatedView):
             response = self.generate_course_pdf(course_id)
             return response
 
+        elif 'delete' in request.POST:
+            course_id = request.POST.get('course_id')
+            course = get_object_or_404(TrainingCourse, id=course_id)
+
+            course.delete()
+            return redirect('courses_list')
+
 
 class AddCourseView(AuthenticatedView):
     """

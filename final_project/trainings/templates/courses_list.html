@@ -36,11 +36,16 @@
                 <td>{{ course.participants_limit }}</td>
                 <td>
                     <a href="{% url 'course_details' course.id %}" class="button">Szczegóły</a>
-                        <form method="post" action="{% url 'courses_list' %}" style="display:inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="course_id" value="{{ course.id }}">
-                            <button name="save_one_course" type="submit">Zapisz szkolenie do pliku PDF</button>
-                        </form>
+                    <form method="post" action="{% url 'courses_list' %}" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="course_id" value="{{ course.id }}">
+                        <button name="save_one_course" type="submit">Zapisz szkolenie do pliku PDF</button>
+                    </form>
+                    <form method="post" action="{% url 'courses_list' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="course_id" value="{{ course.id }}">
+                        <button type="submit" name="delete">Usuń</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
