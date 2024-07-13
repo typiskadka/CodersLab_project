@@ -150,21 +150,25 @@ class EmployeesView(AuthenticatedView):
                 employees_names.append(f"{data['employee'].first_name} {data['employee'].last_name}")
                 total_durations.append(data['total_duration'].total_seconds() / 3600)
 
-            plt.figure(figsize=(10, 6))
+            plt.figure(figsize=(10, 6))         # Rozmiar wykresu
+            # Wykres słupkowy, pracownicy na osi x, czas na osi y, kolor
             plt.bar(employees_names, total_durations, color='blue')
+            # Etykiety
             plt.xlabel('Pracownicy')
             plt.ylabel('Przepracowane godziny')
             plt.title('Czas trwania szkoleń według pracowników')
             plt.xticks(rotation=45, ha='right')
+            # Optymalizuje układ wykresu, aby uniknąć nachodzenia elementów
             plt.tight_layout()
 
-            buffer = io.BytesIO()
-            plt.savefig(buffer, format='png')
-            buffer.seek(0)
-            image_png = buffer.getvalue()
-            buffer.close()
+            # Zapisanie wykresu do pamięci
+            buffer = io.BytesIO()   # Tworzy bufor w pamięci
+            plt.savefig(buffer, format='png')   # Zapisuje wykres jako png do bufora
+            buffer.seek(0)  # Ustawia wskaźnik odczytu na początek bufora
+            image_png = buffer.getvalue()   # Odczytuje zawartość bufora
+            buffer.close()  # Zamyka bufor
 
-            # Convert PNG image to base64 string
+            # Konwertuje obraz PNG na string base64, który może być łatwo osadzony w kodzie HTML jako obraz
             graph = base64.b64encode(image_png).decode('utf-8')
 
             ctx = {
@@ -363,14 +367,16 @@ class CoursesView(AuthenticatedView):
         }
 
         # Generowanie PDF
-        html_string = render_to_string('pdf/course_pdf.html', ctx)
-        html = HTML(string=html_string)
-        result = html.write_pdf()
+        html_string = render_to_string('pdf/course_pdf.html', ctx)  # Renderuje szablon HTML
+        html = HTML(string=html_string)     # Tworzy obiekt HTML z wygenerowanego stringu HTML
+        result = html.write_pdf() # Generuje plik PDF z obiektu HTML i zapisuje go w result
 
         # Utwórz odpowiedź z plikiem PDF
-        response = HttpResponse(content_type='application/pdf')
+        response = HttpResponse(content_type='application/pdf')     # Tworzy odpowiedź HTTP z typem zawartości application/pdf
+        # Ustawia nagłówek Content-Disposition, który sugeruje przeglądarce,
+        # że odpowiedź zawiera plik do pobrania, z nazwą pliku na podstawie tematu szkolenia
         response['Content-Disposition'] = f'attachment; filename=course_{course.topic}.pdf'
-        response.write(result)
+        response.write(result)      # Zapisuje wygenerowany PDF do odpowiedzi
         return response
 
     @staticmethod
@@ -689,7 +695,12 @@ class CoursePresenceListView(AuthenticatedView):
         # Obsługa zapisu obecności
         for participant in participants:
             present = request.POST.get(str(participant.id)) == 'on'
-            # Sprawdź, czy uczestnik jest już na liście obecności
+            # Sprawdź, czy uczestnik jest już na liście obecności.
+            # Metoda get_or_create jest używana do próby pobrania obiektu z bazy danych.
+            # Jeśli taki obiekt nie istnieje, zostanie utworzony nowy obiekt z podanymi parametrami.
+            # obj: Obiekt modelu (instancja), który został pobrany lub utworzony
+            # created: Flaga (True lub False), która wskazuje,
+            # czy obiekt został utworzony (True), czy pobrany z bazy danych (False)
             obj, created = PresenceList.objects.get_or_create(participant=participant, training_course=course)
             obj.present = present
             obj.save()
